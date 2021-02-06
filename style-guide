@@ -1,0 +1,56 @@
+imports:
+   react
+   next
+   third party:
+     swr
+     styled-components
+     luxon
+     moment
+     @azure
+     @zxing
+     victory
+   styles:
+     c
+     m
+     s
+   components:
+     alphabetical
+
+constants:
+  page properties
+  styled components
+
+functions:
+  setApiUrl
+
+component:
+  initial state:
+    modal toggle
+    form
+    reset
+  fetch
+  update:
+    select
+    update state
+    handle submit
+  reset
+  columns
+  errors
+  return:
+    page
+    modals
+
+css:
+  display
+  flex-flow
+  width
+  height
+  align-items
+  justify-content
+  padding
+  margin
+  font-weight
+  border-radius
+  box-shadow
+  background
+  cursor
