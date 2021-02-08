@@ -3,7 +3,7 @@
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/coreyjwhite/phetch?include_prereleases&style=for-the-badge)
 [![GitHub](https://img.shields.io/github/license/coreyjwhite/phetch?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-[![python style: black](https://img.shields.io/badge/python%20style-black-000000.svg?style=for-the-badge&logo=python)](https://github.com/psf/black)
+[![python style: black](https://img.shields.io/badge/python%20style-black-000000.svg?style=for-the-badge&logo=python)](https://black.readthedocs.io/en/stable/)
 [![es6 style](https://img.shields.io/static/v1?label=es6%20style&message=prettier&color=orange&style=for-the-badge&logo=prettier)](https://prettier.io/)
 [![yarn](https://img.shields.io/static/v1?label=yarn&message=v2.4.0&color=9cf&style=for-the-badge&logo=yarn)](https://yarnpkg.com/)
 
@@ -39,4 +39,5 @@ python
 - [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/) - API resource routing
 - [SQLAlchemy](https://www.sqlalchemy.org/) - Object-relational mapper
 - [pandas](https://pandas.pydata.org/) - Data ETL
+
 # phetch
