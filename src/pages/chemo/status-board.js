@@ -10,25 +10,21 @@ const StyledHeader = styled(PageHeader)`
   height: ${m.sp11};
   background: ${c.primary6};
   padding: 0;
-  h1 {
-    margin: 0;
-    font-size: ${m.sp9};
+  & h1 {
     color: ${c.primary9};
-    display: inline-block;
-    vertical-align: middle;
+    margin: ${m.sp3} ${m.sp6};
   }
 `;
-
-function ChemoStatusHeader(props) {
-  return <StyledHeader>{props.children}</StyledHeader>;
-}
 
 const pageProps = {
   pageTitle: "Chemo Status Board",
   header: (
-    <ChemoStatusHeader>
-      <h1>Today: 14</h1>
-    </ChemoStatusHeader>
+    <StyledHeader>
+      <div style={{ textAlign: "center" }}>
+        <h1>Today</h1>
+        <h1>14</h1>
+      </div>
+    </StyledHeader>
   )
 };
 

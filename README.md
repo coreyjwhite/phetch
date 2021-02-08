@@ -15,7 +15,8 @@
 [![Next badge](https://img.shields.io/static/v1?label=next.js&message=v10.0.3&color=black&style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![Flask badge](https://img.shields.io/static/v1?label=flask&message=v1.1.2&color=white&style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/en/1.1.x/)
 
-[![pandas badge](https://img.shields.io/badge/pandas-v1.2.1-150458&logo=pandas)](https://pandas.pydata.org/docs/)
+[![pandas badge](https://img.shields.io/static/v1?label=pandas&message=v1.2.1&style=for-the-badge&logo=pandas)](https://pandas.pydata.org/)
+[![mariadb badge](https://img.shields.io/static/v1?label=mariadb&message=v1.2.1&style=for-the-badge&logo=mariadb)](https://mariadb.com/)
 
 </div>
 
