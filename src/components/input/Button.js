@@ -43,14 +43,11 @@ const StyledButton = styled.button.attrs(props => ({
     color: ${props => props.color || c.gray1};
     text-decoration: underline;
   }
-  &.tertiary:hover {
-    background: ${props => props.bg || c.gray8};
-  }
   &.delete {
     color: ${c.danger3};
     background: ${c.danger5};
   }
-  &.delete:hover {
+  &.delete:active {
     color: white;
     background: ${c.danger3};
   }

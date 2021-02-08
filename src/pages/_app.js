@@ -23,6 +23,7 @@ export default function App({ Component, pageProps }) {
         value={{
           onError: (error, key) => {
             if (error.status !== 403 && error.status !== 404) {
+              return <div>failed to load</div>;
               // We can send the error to Sentry,
               // or show a notification UI.
             }

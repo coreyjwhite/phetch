@@ -11,7 +11,7 @@ const StyledDiv = styled.div`
   justify-content: center;
 `;
 
-export default function Loading() {
+export default function LoadingPage() {
   return (
     <Page>
       <StyledDiv>

@@ -1,27 +1,42 @@
+/** @module useModalForm */
 import { useCallback, useState } from "react";
-import { create, read, update, del } from "libs/crud";
+import { useForm } from "react-hook-form";
+import { create, del, update } from "libs/request";
 
-export default function useModalForm(
-  initialFieldsState,
-  apiUrl,
-  toggleState = false
-) {
-  const [modalIsOpen, setModalIsOpen] = useState(toggleState);
+/**
+ * useModalForm - Provide state and methods for the ModalForm component.
+ *
+ * @param  {object} initialFieldsState State of an empty form.
+ * @param  {string} apiUrl             RESTful API resource URL.
+ * @param  {Function} refresh          Function for refreshing after submit.
+ * @returns {Array.<(boolean | object | Function)>}  Array of modal toggle,
+ *    fields data, field ref object, data update method, submit and reset
+ *    functions, and validation errors object.
+ */
+export default function useModalForm(initialFieldsState, apiUrl, refresh) {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [fields, setFields] = useState(initialFieldsState);
+  const { register, handleSubmit, errors } = useForm();
 
-  function reset() {
-    setFields(initialFieldsState);
-    setModalIsOpen(false);
-  }
-
-  function select(e) {
-    setFields(e);
+  /**
+   * select - description
+   *
+   * @param  {object} newFields description
+   */
+  function select(newFields) {
+    setFields(Object.assign(fields, newFields));
+    console.log(fields);
     setModalIsOpen(true);
   }
 
-  function submit(e) {
-    console.log(e);
-    if (e.target.value == "delete") {
+  /**
+   * submit - description
+   *
+   * @param  {object} newFields description
+   */
+  function submit(newFields) {
+    setFields(Object.assign(fields, newFields));
+    if (newFields.value == "delete") {
       del(apiUrl, { id: fields.id });
     } else if (fields.id == null) {
       create(apiUrl, fields);
@@ -29,7 +44,25 @@ export default function useModalForm(
       update(apiUrl, fields);
     }
     reset();
+    refresh();
   }
 
-  return [modalIsOpen, fields, reset, useCallback(e => select(e)), submit];
+  /**
+   * reset - description
+   */
+  function reset() {
+    setFields(initialFieldsState);
+    setModalIsOpen(false);
+    refresh();
+  }
+
+  return [
+    modalIsOpen,
+    fields,
+    register,
+    useCallback(e => select(e)),
+    handleSubmit(submit),
+    reset,
+    errors
+  ];
 }

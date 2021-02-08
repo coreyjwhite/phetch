@@ -28,7 +28,7 @@ const StyledH3 = styled.h3`
   margin: 0 0 ${m.sp6};
 `;
 
-export default function CrudModal(props) {
+export default function FormModal(props) {
   return (
     <StyledModal
       {...props}

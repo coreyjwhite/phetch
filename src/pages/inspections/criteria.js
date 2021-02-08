@@ -1,12 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import useSWR from "swr";
 import styled from "styled-components";
 import setApiUrl from "libs/setApiUrl";
-import { create, read, update, del } from "libs/crud";
+import useModalForm from "libs/useModalForm";
 import m from "styles/measures";
 import AddButton from "components/input/AddButton";
 import FormModal from "components/containers/FormModal";
-import Loading from "components/Loading";
 import Page from "components/layout/Page";
 import PrintButton from "components/input/PrintButton";
 import Row from "components/containers/Row";
@@ -47,84 +46,43 @@ const initialCategoryState = {
 };
 
 export default function Criteria() {
-  // Set initial state
-  const [criterionFields, setCriterionFields] = useState(initialCriterionState);
-  const [categoryFields, setCategoryFields] = useState(initialCategoryState);
-  const [criteriaModalIsOpen, setCriteriaModalIsOpen] = useState(false);
-  const [categoryModalIsOpen, setCategoryModalIsOpen] = useState(false);
-
   // Fetch data
-  const {
-    data: criteriaData,
-    error: criteriaDataError,
-    mutate: refreshCriteriaData,
-    isValidating: criteriaDataIsValidating
-  } = useSWR(criteriaResourceUrl);
   const {
     data: categoriesData,
     error: categoriesDataError,
-    mutate: refreshCategoriesData,
-    isValidating: categoriesDataIsValidating
+    mutate: refreshCategoriesData
   } = useSWR(categoriesResourceUrl);
+  const {
+    data: criteriaData,
+    error: criteriaDataError,
+    mutate: refreshCriteriaData
+  } = useSWR(criteriaResourceUrl);
 
-  // Update state
-  async function handleCriterionSubmit(e) {
-    e.preventDefault();
-    if (e.target.value == "delete") {
-      del(criteriaResourceUrl, { id: criterionFields.id });
-    } else if (criterionFields.id == null) {
-      create(criteriaResourceUrl, criterionFields);
-    } else {
-      update(criteriaResourceUrl, criterionFields);
-    }
-    resetState();
-  }
-
-  async function handleCategorySubmit(e) {
-    e.preventDefault();
-    if (e.target.value == "delete") {
-      del(categoriesResourceUrl, { id: categoryFields.id });
-    } else if (criterionFields.id == null) {
-      create(categoriesResourceUrl, categoryFields);
-    } else {
-      update(categoriesResourceUrl, categoryFields);
-    }
-    resetState();
-  }
-
-  async function resetState() {
-    setCriteriaModalIsOpen(false);
-    setCategoryModalIsOpen(false);
-    setCategoryFields(initialCategoryState);
-    setCriterionFields(initialCriterionState);
-    await (!criteriaDataIsValidating && !categoriesDataIsValidating);
-    refreshCategoriesData();
-    refreshCriteriaData();
-  }
-
-  function selectRow({ e, type }) {
-    if (type == "criterion") {
-      setCriteriaModalIsOpen(true);
-      setCriterionFields(e);
-    } else if (type == "category") {
-      setCategoryModalIsOpen(true);
-      setCategoryFields(e);
-    }
-  }
-
-  function updateCriterionField(e) {
-    setCriterionFields({
-      ...criterionFields,
-      [e.target.name]: e.target.value
-    });
-  }
-
-  function updateCategoryField(e) {
-    setCategoryFields({
-      ...categoryFields,
-      [e.target.name]: e.target.value
-    });
-  }
+  // Set initial state
+  const [
+    toggleCategory,
+    categoryFields,
+    registerCategory,
+    selectCategory,
+    submitCategory,
+    resetCategory
+  ] = useModalForm(
+    initialCategoryState,
+    categoriesResourceUrl,
+    refreshCategoriesData
+  );
+  const [
+    toggleCriterion,
+    criterionFields,
+    registerCriterion,
+    selectCriterion,
+    submitCriterion,
+    resetCriterion
+  ] = useModalForm(
+    initialCriterionState,
+    criteriaResourceUrl,
+    refreshCriteriaData
+  );
 
   const categoriesColumns = useMemo(
     () => [
@@ -166,29 +124,27 @@ export default function Criteria() {
     []
   );
 
-  if (criteriaDataError || categoriesDataError)
-    return <div>failed to load</div>;
-  if (!categoriesData || !criteriaData) return <Loading />;
-
   return (
     <>
       <StyledPage
-        id="inspectionCriteria"
-        heading={pageTitle}
         pageTitle={pageTitle}
         align="center"
+        data={[
+          categoriesData && criteriaData,
+          categoriesDataError || criteriaDataError
+        ]}
       >
         <StyledTable
           id="categoriesTable"
           heading="Categories"
           columns={categoriesColumns}
           data={categoriesData}
-          onRowClick={e => selectRow({ e, type: "category" })}
+          onRowClick={selectCategory}
           actions={
             <>
               <XLSButton table="categoriesTable" />
               <PrintButton element="categoriesTable" />
-              <AddButton onClick={() => setCategoryModalIsOpen(true)} />
+              <AddButton onClick={() => selectCategory(null)} />
             </>
           }
         />
@@ -198,21 +154,21 @@ export default function Criteria() {
           columns={criteriaColumns}
           data={criteriaData}
           width={m.col12}
-          onRowClick={e => selectRow({ e, type: "criterion" })}
+          onRowClick={selectCriterion}
           actions={
             <>
               <XLSButton table="criteriaTable" />
               <PrintButton element="criteriaTable" />
-              <AddButton onClick={() => setCriteriaModalIsOpen(true)} />
+              <AddButton onClick={() => selectCriterion(null)} />
             </>
           }
         />
       </StyledPage>
       <FormModal
-        isOpen={categoryModalIsOpen}
-        cancel={resetState}
+        isOpen={toggleCategory}
+        cancel={resetCategory}
         hasDelete={categoryFields.id}
-        submit={handleCategorySubmit}
+        submit={submitCategory}
         heading="Inspection Category"
         width={m.sp16}
       >
@@ -225,15 +181,15 @@ export default function Criteria() {
           <Textbox
             name="description"
             width={m.sp14}
-            value={categoryFields.description}
-            onChange={updateCategoryField}
+            defaultValue={categoryFields.description}
+            inputRef={registerCategory}
           />
         </Row>
       </FormModal>
       <FormModal
-        isOpen={criteriaModalIsOpen}
-        cancel={resetState}
-        submit={handleCriterionSubmit}
+        isOpen={toggleCriterion}
+        cancel={resetCriterion}
+        submit={submitCriterion}
         hasDelete={criterionFields.id}
         heading="Inspection Criterion"
         width={m.sp16}
@@ -247,16 +203,16 @@ export default function Criteria() {
           <Textbox
             name="short_name"
             width={m.sp15}
-            value={criterionFields.short_name}
-            onChange={updateCriterionField}
+            defaultValue={criterionFields.short_name}
+            inputRef={registerCriterion}
           />
         </Row>
         <label>Description</label>
         <Row margin={`${m.sp4} 0 ${m.sp7}`}>
           <Textarea
             name="description"
-            value={criterionFields.description}
-            onChange={updateCriterionField}
+            defaultValue={criterionFields.description}
+            inputRef={registerCriterion}
             placeholder="enter description..."
           />
         </Row>
@@ -265,15 +221,16 @@ export default function Criteria() {
           <Select
             name="category_id"
             defaultValue={criterionFields.category_id}
-            onChange={updateCriterionField}
+            inputRef={registerCriterion}
           >
-            {Object.keys(categoriesData).map(key => {
-              return (
-                <option key={key} value={categoriesData[key].id}>
-                  {categoriesData[key].description}
-                </option>
-              );
-            })}
+            {categoriesData &&
+              Object.keys(categoriesData).map(key => {
+                return (
+                  <option key={key} value={categoriesData[key].id}>
+                    {categoriesData[key].description}
+                  </option>
+                );
+              })}
           </Select>
         </Row>
       </FormModal>

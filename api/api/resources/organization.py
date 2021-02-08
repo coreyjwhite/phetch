@@ -64,6 +64,7 @@ class LocationResource(Resource):
                 Location.description,
                 Location.adc_id,
                 Location.emr_id,
+                Location.has_crashcart,
                 Location.is_inpatient,
                 Location.is_offsite,
                 Location.contact_id,
@@ -87,6 +88,7 @@ class LocationResource(Resource):
             description=req["description"],
             adc_id=req["adc_id"],
             emr_id=req["emr_id"],
+            has_crashcart=req["has_crashcart"],
             is_inpatient=req["is_inpatient"],
             is_offsite=req["is_offsite"],
             department_id=req["department_id"],
@@ -109,6 +111,7 @@ class LocationResource(Resource):
         row.description = (req["description"],)
         row.adc_id = (req["adc_id"],)
         row.emr_id = (req["emr_id"],)
+        row.has_crashcart = req["has_crashcart"]
         row.is_inpatient = (req["is_inpatient"],)
         row.is_offsite = (req["is_offsite"],)
         row.department_id = (req["department_id"],)

@@ -22,7 +22,11 @@ const StyledSelect = styled.select.attrs(props => ({
 `;
 
 export default function Select(props) {
-  return <StyledSelect {...props}>{props.children}</StyledSelect>;
+  return (
+    <StyledSelect {...props} ref={props.inputRef}>
+      {props.children}
+    </StyledSelect>
+  );
 }
 
 Select.propTypes = {

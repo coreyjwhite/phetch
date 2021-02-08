@@ -1,43 +1,33 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import useSWR from "swr";
-import { useForm } from "react-hook-form";
 import useModalForm from "libs/useModalForm";
 import setApiUrl from "libs/setApiUrl";
-import { read, update } from "libs/crud";
 import m from "styles/measures";
 import Boolean from "components/Boolean";
+import Checkbox from "components/input/Checkbox";
 import FormModal from "components/containers/FormModal";
-import Loading from "components/Loading";
 import Page from "components/layout/Page";
-import Row from "components/containers/Row";
 import Table from "components/data/Table";
 import Textbox from "components/input/Textbox";
 
-const pageTitle = "Inspection Locations";
-
 const locationsResourceUrl = setApiUrl("inspections/locations/");
-
 const initialLocationState = {
   id: null,
   description: null,
-  has_crashcart: null,
-  is_inpatient: null,
-  is_offsite: null,
-  is_inspected: null,
+  adc_id: null,
+  has_crashcart: false,
+  is_inpatient: false,
+  is_offsite: false,
+  is_inspected: false,
   last_updated_by: 5
 };
 
 export default function InspectionLocations() {
-  const {
-    data: locationsData,
-    error: locationsDataError,
-    mutate: refreshLocationsData,
-    isValidating: locationsDataIsValidating
-  } = useSWR(locationsResourceUrl);
-
-  const { register, handleSubmit, errors } = useForm();
-  const [modalIsOpen, fields, reset, select, submit] = useModalForm(
-    initialLocationState
+  const { data, mutate, error } = useSWR(locationsResourceUrl);
+  const [toggle, fields, register, select, submit, reset] = useModalForm(
+    initialLocationState,
+    locationsResourceUrl,
+    mutate
   );
 
   const columns = useMemo(
@@ -66,36 +56,54 @@ export default function InspectionLocations() {
         Cell({ value }) {
           return <Boolean value={value} />;
         }
+      },
+      ,
+      {
+        Header: "Offsite",
+        accessor: "is_offsite",
+        Cell({ value }) {
+          return <Boolean value={value} />;
+        }
+      },
+      {
+        Header: "Omnicell",
+        accessor: "adc_id",
+        Cell({ value }) {
+          return <Boolean value={value} />;
+        }
       }
     ],
     []
   );
 
-  if (locationsDataError) return <div>failed to load</div>;
-  if (!locationsData) return <Loading />;
-
   return (
     <>
-      <Page pageTitle={pageTitle} width={m.devMd} align="center">
+      <Page
+        pageTitle="Inspection Locations"
+        width={m.col12}
+        align="center"
+        data={[data, error]}
+      >
         <Table
           id="locationsTable"
           columns={columns}
-          data={locationsData}
+          data={data}
           onRowClick={select}
         />
       </Page>
       <FormModal
-        isOpen={modalIsOpen}
+        isOpen={toggle}
         cancel={reset}
-        hasDelete={true}
+        hasDelete={fields.id}
         width={m.sp16}
-        submit={handleSubmit(submit)}
+        submit={submit}
       >
         <Textbox
           name="description"
           defaultValue={fields.description}
           inputRef={register}
         />
+        <Checkbox name="has_crashcart" inputRef={register} />
       </FormModal>
     </>
   );

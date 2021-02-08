@@ -39,16 +39,7 @@ const StyledCard = styled(Card).attrs(props => ({
     font-size: ${m.sp6};
     border-top: 1px solid ${c.gray8};
   }
-  p {
-    margin: ${m.sp2} 0;
-    font-weight: 400;
-    color: ${c.gray1};
-    .light {
-      font-weight: 200;
-      color: ${c.gray6};
-    }
-  }
-  tr:active {
+  tr:not(.headerRow):active {
     background-color: ${props => (props.onRowClick ? c.primary5 : "white")};
     td {
       color: ${props => (props.onRowClick ? c.primary9 : c.gray1)};
@@ -62,6 +53,15 @@ const StyledCard = styled(Card).attrs(props => ({
   }
   .light {
     color: ${c.gray6};
+  }
+  p {
+    margin: ${m.sp2} 0;
+    font-weight: 400;
+    color: ${c.gray1};
+    .light {
+      font-weight: 200;
+      color: ${c.gray6};
+    }
   }
 `;
 
@@ -98,7 +98,7 @@ export default function Table(props) {
       <table {...getTableProps()} id={props.id} className="table">
         <thead id={props.id + "Header"}>
           {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
+            <tr {...headerGroup.getHeaderGroupProps()} className="headerRow">
               {headerGroup.headers.map(column => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render("Header")}

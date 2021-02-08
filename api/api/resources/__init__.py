@@ -12,8 +12,8 @@ def add_resources(api):
 
     """
 
-    def add(resource, slug):
-        api.add_resource(resource, slug)
+    def add(resource, *args):
+        api.add_resource(resource, *args)
 
     # Inspections
     add(inspections.CategoriesResource, "/inspections/categories/")
@@ -22,7 +22,6 @@ def add_resources(api):
         inspections.LocationCriteriaResource,
         "/inspections/locations/<int:location>",
     )
-    add(inspections.LocationsResource, "/inspections/locations/")
     add(inspections.NewRecordResource, "/inspections/record/new/<int:location>")
     add(inspections.RecordResource, "/inspections/records/<int:record>")
     add(inspections.RecordsResource, "/inspections/records/")
@@ -46,7 +45,11 @@ def add_resources(api):
 
     # Organization
     add(organization.DepartmentResource, "/organization/departments/")
-    add(organization.LocationResource, "/organization/locations/")
+    add(
+        organization.LocationResource,
+        "/inspections/locations/",
+        "/organization/locations/",
+    )
 
     # Statstock
     add(statstock.PendingResource, "/statstock/pending/")

@@ -28,13 +28,11 @@ class ItemResource(Resource):
         db.session.commit()
 
 
-class OrderResource(Resource):
+class AppointmentResource(Resource):
     def get(self):
         q = (
             ChemoOrder.query(
                 ChemoOrder.id,
-                ChemoOrder.mo_id,
-                ChemoOrder.pat_id,
                 ChemoOrder.item_id,
                 ChemoOrder.start_ts,
                 ChemoOrder.stop_ts,

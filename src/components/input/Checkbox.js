@@ -51,6 +51,7 @@ export default function Checkbox(props) {
         id={`_${props.id}`}
         checked={value}
         ref={props.inputRef}
+        {...props}
       />
       <StyledCheckbox id={props.id} checked={value}>
         <StyledCheckIcon checked={value} />

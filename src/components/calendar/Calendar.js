@@ -19,28 +19,29 @@ const StyledCalendar = styled(Calendar)`
       color: ${c.gray2};
     }
     .rbc-time-view {
-      border-top: none;
+      border: none;
       margin: ${m.sp4} ${m.sp4} 0;
+      width: ${m.col6};
+      align-self: center;
     }
     .rbc-time-content {
-      border-bottom: none;
+      border: none;
     }
     .rbc-btn-group {
       border-radius: ${s.borderRadius};
       outline: none;
       button {
-        color: ${c.primary2};
+        color: ${c.primary3};
         cursor: pointer;
-        border: 1px solid transparent;
-        background-color: ${c.primary9};
+        border: 1px solid ${c.primary9};
+        background-color: transparent;
         box-shadow: none;
         height: ${m.sp8};
         outline: none;
         &.rbc-active,
-        :focus,
         :hover {
-          background: ${c.primary8};
-          border: 1px solid ${c.primary8};
+          background: ${c.primary9};
+          border: 1px solid ${c.primary9};
         }
       }
     }
@@ -68,9 +69,13 @@ const StyledCalendar = styled(Calendar)`
     .rbc-date-cell {
       text-align: center;
       padding: 0;
+      a {
+        display: inline-block;
+        width: 100%;
+      }
     }
     .rbc-time-slot {
-      border-top: none;
+      border: none;
     }
     .rbc-off-range-bg {
       background-color: ${c.primary9};
@@ -82,6 +87,9 @@ const StyledCalendar = styled(Calendar)`
       border-bottom: 1px solid ${c.primary8};
       padding-bottom: ${m.sp3};
       margin-bottom: ${m.sp5};
+    }
+    .rbc-timeslot-group {
+      border: none;
     }
   }
 `;

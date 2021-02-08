@@ -1,5 +1,9 @@
 {
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:jsdoc/recommended",
+    "plugin:react/recommended"
+  ],
   "rules": {
     "react/react-in-jsx-scope": "off"
   },
@@ -7,5 +11,6 @@
   "env": {
     "browser": true,
     "node": true
-  }
+  },
+  "plugins": ["jsdoc"]
 }

@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import c from "styles/color";
 import m from "styles/measures";
 import Button from "components/input/Button";
 
@@ -14,12 +15,18 @@ const StyledDiv = styled.div.attrs(props => ({
     font-weight: 600;
     display: inline-block;
   }
-  button {
+  && button {
+    color: ${c.gray2};
     display: inline-block;
     align-self: center;
+    font-size: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+  }
+  .buttonGroup {
+    display: flex;
     margin-left: auto;
-    height: ${m.sp8};
-    padding: ${m.sp3};
+    align-items: center;
   }
   @media (min-width: ${m.devMd}) {
     margin: 0 ${m.sp4};
@@ -31,7 +38,7 @@ export default function PageHeading(props) {
   return (
     <StyledDiv id={props.id}>
       <h1>{props.heading}</h1>
-      {props.actions}
+      <div className="buttonGroup">{props.actions}</div>
     </StyledDiv>
   );
 }

@@ -8,7 +8,6 @@ import Link from "next/link";
 import CalculatorButton from "components/input/CalculatorButton";
 import Card from "components/containers/Card";
 import ControlLevel from "components/ControlLevel";
-import Loading from "components/Loading";
 import Page from "components/layout/Page";
 import PageHeader from "components/layout/PageHeader";
 import Pill from "components/Pill";
@@ -205,10 +204,9 @@ export default function Repackaging() {
   );
 
   const { data, error } = useSWR(resourceUrl);
-  if (!data || error) return <Loading />;
 
   return (
-    <Page {...props}>
+    <Page {...props} data={[data, error]}>
       <Table
         id="repackagingTable"
         columns={columns}

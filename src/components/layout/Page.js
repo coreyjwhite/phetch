@@ -4,6 +4,7 @@ import styled from "styled-components";
 import camelize from "libs/camelize";
 import m from "styles/measures";
 import Content from "components/layout/Content";
+import LoadingPage from "components/layout/LoadingPage";
 import PageHeading from "components/layout/PageHeading";
 
 const StyledDiv = styled.div.attrs(props => ({
@@ -24,21 +25,30 @@ const StyledDiv = styled.div.attrs(props => ({
   }
 `;
 
-function getPageHeader(header) {
-  if (header) {
-    return <>{header}</>;
-  }
-}
-
 export default function Page(props) {
-  const id = camelize(props.pageTitle);
+  let id = "";
+  if (props.pageTitle) {
+    id = camelize(props.pageTitle);
+  }
+
+  let data = true;
+  let error = false;
+
+  if (props.data) {
+    data = props.data[0];
+    error = props.data[1];
+  }
+
+  if (error) return <div>failed to load</div>;
+  if (!data) return <LoadingPage />;
+
   return (
     <>
       <Head>
         <title>{props.pageTitle}</title>
       </Head>
       <StyledDiv id={id} {...props}>
-        {getPageHeader(props.header)}
+        {props.header && props.header}
         <Content id={id} {...props}>
           <PageHeading
             id={id}
@@ -54,6 +64,7 @@ export default function Page(props) {
 
 Page.propTypes = {
   children: PropTypes.object,
+  data: PropTypes.array,
   id: PropTypes.string,
   header: PropTypes.object,
   heading: PropTypes.string,

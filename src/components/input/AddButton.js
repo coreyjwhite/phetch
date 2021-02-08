@@ -8,7 +8,6 @@ const StyledButton = styled(Button)`
     text-decoration: none;
     font-size: 1.7rem;
     font-weight: 400;
-    color: ${props => props.color || c.gray4};
     margin: 0;
   }
 `;

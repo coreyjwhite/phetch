@@ -14,7 +14,6 @@ const StyledDiv = styled.div.attrs(props => ({
   justify-content: ${props => props.justify || "center"};
   align-items: ${props => props.align || "flex-start"};
   height: ${props => props.height || "fit-content"};
-  min-height: ${m.sp13};
   margin: ${props => props.margin || `${m.sp4} 0`};
   padding: ${props => props.padding || m.sp3};
   border-radius: ${s.borderRadius};

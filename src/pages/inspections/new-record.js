@@ -4,14 +4,9 @@ import setApiUrl from "libs/setApiUrl";
 import { create, read, update, del } from "libs/crud";
 import m from "styles/measures";
 import Button from "components/input/Button";
-import EditButton from "components/input/EditButton";
-import Loading from "components/Loading";
-import Checkbox from "components/input/Checkbox";
 import Page from "components/layout/Page";
-import Row from "components/containers/Row";
 import Select from "components/input/Select";
 import Table from "components/data/Table";
-import Textbox from "components/input/Textbox";
 
 const pageTitle = "New Inspection Record";
 const locationsResourceUrl = setApiUrl("organization/locations");

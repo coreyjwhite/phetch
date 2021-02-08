@@ -18,5 +18,9 @@ const StyledTextarea = styled.textarea.attrs({
 `;
 
 export default function Textarea(props) {
-  return <StyledTextarea {...props}>{props.children}</StyledTextarea>;
+  return (
+    <StyledTextarea {...props} ref={props.inputRef}>
+      {props.children}
+    </StyledTextarea>
+  );
 }

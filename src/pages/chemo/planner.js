@@ -1,15 +1,18 @@
 import { useState } from "react";
+import useSWR from "swr";
 import { useForm } from "react-hook-form";
 import useModalForm from "libs/useModalForm";
+import setApiUrl from "libs/setApiUrl";
 import c from "styles/color";
 import m from "styles/measures";
 import chemoAppointments from "pages/chemo/chemoAppointments";
 import AddButton from "components/input/AddButton";
-import Calendar from "components/data/Calendar";
+import Calendar from "components/calendar/Calendar";
 import Card from "components/containers/Card";
 import ChemoEvent from "components/calendar/ChemoEvent";
 import FormModal from "components/containers/FormModal";
 import Page from "components/layout/Page";
+import PrintButton from "components/input/PrintButton";
 import Textbox from "components/input/Textbox";
 
 const pageTitle = "Chemo Planner";
@@ -26,14 +29,22 @@ const initialEventState = {
 
 export default function ChemoPlanner() {
   const { register, handleSubmit, errors } = useForm();
-  const [modalIsOpen, fields, reset, select, submit] = useModalForm(
+  const [toggle, fields, reset, select, submit] = useModalForm(
     initialEventState
   );
 
   return (
     <>
-      <Page pageTitle={pageTitle}>
-        <Card width={m.col12} actions={<AddButton onClick={select} />}>
+      <Page
+        pageTitle={pageTitle}
+        actions={
+          <>
+            <PrintButton element="chemoCalendarCard" />
+            <AddButton onClick={select} />
+          </>
+        }
+      >
+        <Card id="chemoCalendar" width={m.col12}>
           <Calendar
             selectable
             event={ChemoEvent}
@@ -46,7 +57,7 @@ export default function ChemoPlanner() {
         </Card>
       </Page>
       <FormModal
-        isOpen={modalIsOpen}
+        isOpen={toggle}
         cancel={reset}
         hasDelete={true}
         width={m.sp16}
