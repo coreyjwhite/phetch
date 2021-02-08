@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Button from "components/input/Button";
 import toPDF from "libs/toPDF";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import m from "styles/measures";
 
 const StyledImg = styled.img.attrs(props => ({
@@ -8,7 +9,22 @@ const StyledImg = styled.img.attrs(props => ({
   width: props.imgHeight ? props.imgHeight : "20"
 }))``;
 
-export default function PrintButton(props) {
+const StyledButton = styled(Button)`
+  &.tertiary {
+    text-decoration: none;
+    font-size: 1.7rem;
+    font-weight: 400;
+    margin: 0;
+  }
+`;
+
+function handleClick(action, target = null) {
+  if (action == "print") {
+    return toPDF(target);
+  }
+}
+
+export default function ActionButton(props) {
   return (
     <Button
       {...props}

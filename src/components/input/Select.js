@@ -1,35 +1,33 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Select from "react-select";
 import c from "styles/color";
 import m from "styles/measures";
+import s from "styles/styles";
 
-const HiddenSelect = styled.select.attrs({ className: "hiddenSelect" })``;
-
-const StyledSelect = styled.select.attrs(props => ({
-  className: "styledSelect",
-  id: props.id
-}))`
-  width: ${props => props.width || m.col12};
-  height: ${props => props.height || "fit-content"};
-  &.option {
-    color: green;
-    background: blue;
-    display: flex;
-    white-space: pre;
-    min-height: 20px;
-    padding: 0px 2px 1px;
+const StyledSelect = styled(Select)`
+  .react-select__control {
+    border: ${s.inactiveBorder};
+    border-radius: ${s.borderRadius};
   }
 `;
 
-export default function Select(props) {
-  return (
-    <StyledSelect {...props} ref={props.inputRef}>
-      {props.children}
-    </StyledSelect>
-  );
+function getOptions(data, value, label) {
+  const options = [];
+  data.forEach(function(row) {
+    console.log(row[value]);
+    options.push({ value: row[value], label: row[label] });
+  });
+  return options;
 }
 
-Select.propTypes = {
-  id: PropTypes.string,
-  children: PropTypes.object
-};
+export default function CustomSelect(props) {
+  return (
+    <StyledSelect
+      classNamePrefix="react-select"
+      ref={props.inputRef}
+      options={getOptions(props.data, props.value, props.label)}
+      {...props}
+    />
+  );
+}

@@ -8,10 +8,10 @@ import setApiUrl from "libs/setApiUrl";
 import c from "styles/color";
 import m from "styles/measures";
 import s from "styles/styles";
-import Loading from "components/Loading";
 import Card from "components/containers/Card";
 import Checkbox from "components/input/Checkbox";
 import Column from "components/containers/Column";
+import LoadingPage from "components/layout/LoadingPage";
 import MiniTable from "components/data/MiniTable";
 import Modal from "components/containers/Modal";
 import Page from "components/layout/Page";
@@ -510,17 +510,22 @@ export default function StatusBoard() {
     []
   );
 
-  if (censusDataError) return <div>failed to load</div>;
-  if (!censusData) return <Loading />;
-  if (!watchlistData) return <Loading />;
-  if (!populationsData) return <Loading />;
-
   //if (!kitData) return <Loading />;
   //if (!pendingTagData) return <Loading />;
 
   return (
     <>
-      <Page pageTitle={pageTitle} heading={pageTitle}>
+      <Page
+        pageTitle={pageTitle}
+        heading={pageTitle}
+        data={[
+          censusData && populationsData && stockoutData && watchlistData,
+          censusDataError ||
+            populationsDataError ||
+            stockoutDataError ||
+            watchlistDataError
+        ]}
+      >
         <Row>
           <Column width={m.col9}>
             <Row justify="space-evenly">
@@ -530,6 +535,7 @@ export default function StatusBoard() {
                     <SparklineCard
                       heading="Census"
                       width={m.col12}
+                      height={m.sp13}
                       padding={-1}
                       onClick={toggleModal}
                       sparklineData={historicalCensusData}
@@ -572,6 +578,7 @@ export default function StatusBoard() {
                     <SparklineCard
                       heading="Productivity"
                       width={m.col12}
+                      height={m.sp13}
                       padding={-1}
                       onClick={toggleModal}
                       sparklineData={historicalCensusData}
@@ -602,6 +609,7 @@ export default function StatusBoard() {
                       heading="Chemo"
                       className="success"
                       width={m.col11}
+                      height={m.sp13}
                       margin={0}
                       kpiData={8}
                       kpiTitle="Today*"
@@ -615,6 +623,7 @@ export default function StatusBoard() {
                   <Column width={m.col4}>
                     <StatusCard
                       heading="IV Room"
+                      height={m.sp13}
                       className="success"
                       width={m.col11}
                       kpiData={110}
@@ -631,6 +640,7 @@ export default function StatusBoard() {
                       heading="Inventory"
                       className="success"
                       width={m.col11}
+                      height={m.sp13}
                       kpiData={5}
                       kpiTitle="Expiring"
                     >
@@ -648,7 +658,8 @@ export default function StatusBoard() {
                     <StatusCard
                       heading="Crash Carts"
                       className={pendingTagData == 0 ? "success" : "warning"}
-                      width={m.col10}
+                      width={m.col11}
+                      height={m.sp13}
                       kpiData={pendingTagData}
                       kpiTitle="Pending Tags"
                     >
@@ -665,6 +676,7 @@ export default function StatusBoard() {
                       heading="Projects"
                       className="success"
                       width={m.col11}
+                      height={m.sp13}
                       kpiData={16}
                       kpiTitle="In Progress"
                     ></StatusCard>
@@ -674,6 +686,7 @@ export default function StatusBoard() {
                       heading="Inspections"
                       className="success"
                       width={m.col11}
+                      height={m.sp13}
                     >
                       <Column justify="flex-start" height={m.col12}></Column>
                     </Card>

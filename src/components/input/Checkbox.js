@@ -41,20 +41,20 @@ const StyledCheckIcon = styled.img.attrs({
 `;
 
 export default function Checkbox(props) {
-  const [value, setChecked] = useState(props.value);
+  const [checked, setChecked] = useState(props.defaultChecked);
   return (
     <CheckboxContainer
       id={`${props.id}Container`}
-      onClick={() => setChecked(!value)}
+      onClick={() => setChecked(!checked)}
     >
       <HiddenCheckbox
         id={`_${props.id}`}
-        checked={value}
+        checked={checked}
         ref={props.inputRef}
         {...props}
       />
-      <StyledCheckbox id={props.id} checked={value}>
-        <StyledCheckIcon checked={value} />
+      <StyledCheckbox id={props.id} checked={checked}>
+        <StyledCheckIcon checked={checked} />
       </StyledCheckbox>
     </CheckboxContainer>
   );

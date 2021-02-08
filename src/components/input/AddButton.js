@@ -1,5 +1,4 @@
 import Button from "components/input/Button";
-import c from "styles/color";
 import m from "styles/measures";
 import styled from "styled-components";
 

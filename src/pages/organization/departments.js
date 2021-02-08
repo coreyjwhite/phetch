@@ -1,13 +1,12 @@
 import { useMemo, useState } from "react";
 import useSWR from "swr";
 import setApiUrl from "libs/setApiUrl";
-import { create, update, del } from "libs/crud";
+import { create, update, del } from "libs/request";
 import m from "styles/measures";
 import Button from "components/input/Button";
 import EditButton from "components/input/EditButton";
-import Loading from "components/Loading";
 import Checkbox from "components/input/Checkbox";
-import CrudModal from "components/containers/CrudModal";
+import FormModal from "components/containers/FormModal";
 import Page from "components/layout/Page";
 import Row from "components/containers/Row";
 import Table from "components/data/Table";
@@ -117,9 +116,6 @@ export default function Departments() {
     []
   );
 
-  if (error) return <div>failed to load</div>;
-  if (!departmentsData) return <Loading />;
-
   return (
     <>
       <Page
@@ -128,6 +124,7 @@ export default function Departments() {
         pageTitle={pageTitle}
         width={m.devMd}
         align="center"
+        data={[departmentsData, error]}
         actions=<Button
           onClick={() => setModalIsOpen(true)}
           width={m.sp8}
@@ -138,7 +135,7 @@ export default function Departments() {
       >
         <Table id="departmentsTable" columns={columns} data={departmentsData} />
       </Page>
-      <CrudModal
+      <FormModal
         isOpen={modalIsOpen}
         cancel={resetState}
         submit={handleSubmit}
@@ -170,7 +167,7 @@ export default function Departments() {
             onChange={updateDepartmentField}
           />
         </Row>
-      </CrudModal>
+      </FormModal>
     </>
   );
 }

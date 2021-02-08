@@ -7,10 +7,12 @@ import Boolean from "components/Boolean";
 import Checkbox from "components/input/Checkbox";
 import FormModal from "components/containers/FormModal";
 import Page from "components/layout/Page";
+import Select from "components/input/Select";
 import Table from "components/data/Table";
 import Textbox from "components/input/Textbox";
 
 const locationsResourceUrl = setApiUrl("inspections/locations/");
+const departmentsResourceUrl = setApiUrl("organization/departments/");
 const initialLocationState = {
   id: null,
   description: null,
@@ -23,11 +25,18 @@ const initialLocationState = {
 };
 
 export default function InspectionLocations() {
-  const { data, mutate, error } = useSWR(locationsResourceUrl);
+  const {
+    data: locationsData,
+    mutate: refreshLocationsData,
+    error: locationsDataError
+  } = useSWR(locationsResourceUrl);
+  const { data: departmentsData, departmentsDataError } = useSWR(
+    departmentsResourceUrl
+  );
   const [toggle, fields, register, select, submit, reset] = useModalForm(
     initialLocationState,
     locationsResourceUrl,
-    mutate
+    refreshLocationsData
   );
 
   const columns = useMemo(
@@ -82,12 +91,15 @@ export default function InspectionLocations() {
         pageTitle="Inspection Locations"
         width={m.col12}
         align="center"
-        data={[data, error]}
+        data={[
+          locationsData && departmentsData,
+          locationsDataError || departmentsDataError
+        ]}
       >
         <Table
           id="locationsTable"
           columns={columns}
-          data={data}
+          data={locationsData}
           onRowClick={select}
         />
       </Page>
@@ -103,7 +115,35 @@ export default function InspectionLocations() {
           defaultValue={fields.description}
           inputRef={register}
         />
-        <Checkbox name="has_crashcart" inputRef={register} />
+        <Checkbox
+          name="is_inpatient"
+          defaultChecked={fields.is_inpatient}
+          inputRef={register}
+        />
+        <Checkbox
+          name="has_crashcart"
+          defaultChecked={fields.has_crashcart}
+          inputRef={register}
+        />
+        <Checkbox
+          name="is_offsite"
+          defaultChecked={fields.is_offsite}
+          inputRef={register}
+        />
+        <Textbox
+          name="adc_id"
+          defaultValue={fields.adc_id}
+          inputRef={register}
+          margin={`${m.sp4} 0`}
+        />
+        <Select
+          name="department_id"
+          defaultValue={fields.department_id}
+          inputRef={register}
+          data={departmentsData}
+          value="id"
+          label="description"
+        ></Select>
       </FormModal>
     </>
   );

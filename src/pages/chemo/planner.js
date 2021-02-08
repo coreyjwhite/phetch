@@ -39,7 +39,7 @@ export default function ChemoPlanner() {
         pageTitle={pageTitle}
         actions={
           <>
-            <PrintButton element="chemoCalendarCard" />
+            <PrintButton element="chemoCalendarCard" imgHeight="25" />
             <AddButton onClick={select} />
           </>
         }
