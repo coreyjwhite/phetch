@@ -46,6 +46,7 @@ class Location(LocalModel):
     adc_id = Column(String(16))
     emr_id = Column(String(16))
     has_crashcart = Column(TINYINT, nullable=False, server_default="1")
+    has_refrigerator = Column(TINYINT, nullable=False, server_default="1")
     is_inpatient = Column(TINYINT, nullable=False, server_default="1")
     is_offsite = Column(TINYINT, nullable=False, server_default="0")
     contact_id = Column(Integer, ForeignKey("person.id"))

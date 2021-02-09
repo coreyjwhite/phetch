@@ -3,23 +3,31 @@ import useSWR from "swr";
 import useModalForm from "libs/useModalForm";
 import setApiUrl from "libs/setApiUrl";
 import m from "styles/measures";
+import AddButton from "components/input/AddButton";
 import Boolean from "components/Boolean";
 import Checkbox from "components/input/Checkbox";
+import Column from "components/containers/Column";
 import FormModal from "components/containers/FormModal";
 import Page from "components/layout/Page";
+import PrintButton from "components/input/PrintButton";
+import Row from "components/containers/Row";
 import Select from "components/input/Select";
 import Table from "components/data/Table";
 import Textbox from "components/input/Textbox";
+import XLSButton from "components/input/XLSButton";
 
 const locationsResourceUrl = setApiUrl("inspections/locations/");
 const departmentsResourceUrl = setApiUrl("organization/departments/");
 const initialLocationState = {
   id: null,
   description: null,
+  department_id: null,
   adc_id: null,
+  emr_id: null,
   has_crashcart: false,
   is_inpatient: false,
   is_offsite: false,
+  has_refrigerator: false,
   is_inspected: false,
   last_updated_by: 5
 };
@@ -66,7 +74,13 @@ export default function InspectionLocations() {
           return <Boolean value={value} />;
         }
       },
-      ,
+      {
+        Header: "Refrigerator",
+        accessor: "has_refrigerator",
+        Cell({ value }) {
+          return <Boolean value={value} />;
+        }
+      },
       {
         Header: "Offsite",
         accessor: "is_offsite",
@@ -95,6 +109,13 @@ export default function InspectionLocations() {
           locationsData && departmentsData,
           locationsDataError || departmentsDataError
         ]}
+        actions={
+          <>
+            <XLSButton table="categoriesTable" />
+            <PrintButton element="categoriesTable" />
+            <AddButton onClick={() => selectCategory(null)} />
+          </>
+        }
       >
         <Table
           id="locationsTable"
@@ -102,49 +123,88 @@ export default function InspectionLocations() {
           data={locationsData}
           onRowClick={select}
         />
+        <FormModal
+          isOpen={toggle}
+          cancel={reset}
+          hasDelete={fields.id}
+          width={m.sp16}
+          submit={submit}
+          heading="Location"
+        >
+          <Row
+            align="flex-end"
+            justify="space-between"
+            margin={`${m.sp4} 0 ${m.sp7}`}
+          >
+            <label>Description</label>
+            <Textbox
+              name="description"
+              width={m.col8}
+              defaultValue={fields.description}
+              inputRef={register}
+            />
+          </Row>
+          <Row
+            align="flex-end"
+            justify="space-between"
+            margin={`${m.sp4} 0 ${m.sp7}`}
+          >
+            <label>Meditech</label>
+            <Textbox
+              name="emr_id"
+              defaultValue={fields.emr_id}
+              inputRef={register}
+              width={m.col3}
+            />
+            <label>Omnicell</label>
+            <Textbox
+              name="adc_id"
+              defaultValue={fields.adc_id}
+              inputRef={register}
+              width={m.col3}
+            />
+          </Row>
+          <Row>
+            <Column width="100%" align="flex-end" justify="space-around">
+              <label>Inpatient</label>
+              <label>Crash Cart</label>
+              <label>Offsite</label>
+              <label>Refrigerator</label>
+            </Column>
+            <Column align="flex-start">
+              <Checkbox
+                name="is_inpatient"
+                defaultChecked={fields.is_inpatient}
+                inputRef={register}
+              />
+              <Checkbox
+                name="has_crashcart"
+                defaultChecked={fields.has_crashcart}
+                inputRef={register}
+              />
+              <Checkbox
+                name="is_offsite"
+                defaultChecked={fields.is_offsite}
+                inputRef={register}
+              />
+              <Checkbox
+                name="has_refrigerator"
+                defaultChecked={fields.has_refrigerator}
+                inputRef={register}
+              />
+            </Column>
+          </Row>
+          <label>Department</label>
+          <Select
+            name="department_id"
+            defaultValue={fields.department_id}
+            inputRef={register}
+            data={departmentsData}
+            valueField="id"
+            labelField="description"
+          />
+        </FormModal>
       </Page>
-      <FormModal
-        isOpen={toggle}
-        cancel={reset}
-        hasDelete={fields.id}
-        width={m.sp16}
-        submit={submit}
-      >
-        <Textbox
-          name="description"
-          defaultValue={fields.description}
-          inputRef={register}
-        />
-        <Checkbox
-          name="is_inpatient"
-          defaultChecked={fields.is_inpatient}
-          inputRef={register}
-        />
-        <Checkbox
-          name="has_crashcart"
-          defaultChecked={fields.has_crashcart}
-          inputRef={register}
-        />
-        <Checkbox
-          name="is_offsite"
-          defaultChecked={fields.is_offsite}
-          inputRef={register}
-        />
-        <Textbox
-          name="adc_id"
-          defaultValue={fields.adc_id}
-          inputRef={register}
-          margin={`${m.sp4} 0`}
-        />
-        <Select
-          name="department_id"
-          defaultValue={fields.department_id}
-          inputRef={register}
-          data={departmentsData}
-          value="id"
-          label="description"
-        ></Select>
-      </FormModal>
     </>
   );
 }

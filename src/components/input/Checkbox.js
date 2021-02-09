@@ -28,6 +28,7 @@ const CheckboxContainer = styled.div.attrs({ className: "checkboxContainer" })`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: ${m.sp4};
 `;
 
 const StyledCheckIcon = styled.img.attrs({

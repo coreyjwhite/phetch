@@ -8,7 +8,7 @@ const StyledDiv = styled.div.attrs(props => ({
 }))`
   display: flex;
   flex-flow: column nowrap;
-  width: 100%;
+  width: calc(100vw - ${m.sp13} - ${m.sp6});
   padding: ${m.sp6};
   z-index: 700;
   box-shadow: ${s.elev3};

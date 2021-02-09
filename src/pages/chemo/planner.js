@@ -39,7 +39,7 @@ export default function ChemoPlanner() {
         pageTitle={pageTitle}
         actions={
           <>
-            <PrintButton element="chemoCalendarCard" imgHeight="25" />
+            <PrintButton element="chemoCalendarCard" />
             <AddButton onClick={select} />
           </>
         }
@@ -55,22 +55,22 @@ export default function ChemoPlanner() {
             max={new Date(2008, 0, 1, 17, 0)}
           />
         </Card>
+        <FormModal
+          isOpen={toggle}
+          cancel={reset}
+          hasDelete={true}
+          width={m.sp16}
+          submit={handleSubmit(submit)}
+        >
+          <Textbox name="drug" defaultValue={fields.drug} inputRef={register} />
+          <Textbox
+            name="patient"
+            defaultValue={fields.patient}
+            inputRef={register({ required: true })}
+          />
+          {errors.exampleRequired && <span>This field is required</span>}
+        </FormModal>
       </Page>
-      <FormModal
-        isOpen={toggle}
-        cancel={reset}
-        hasDelete={true}
-        width={m.sp16}
-        submit={handleSubmit(submit)}
-      >
-        <Textbox name="drug" defaultValue={fields.drug} inputRef={register} />
-        <Textbox
-          name="patient"
-          defaultValue={fields.patient}
-          inputRef={register({ required: true })}
-        />
-        {errors.exampleRequired && <span>This field is required</span>}
-      </FormModal>
     </>
   );
 }

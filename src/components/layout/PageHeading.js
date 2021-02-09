@@ -18,9 +18,7 @@ const StyledDiv = styled.div.attrs(props => ({
   && button {
     color: ${c.gray2};
     display: inline-block;
-    align-self: center;
-    font-size: 2.5rem;
-    height: 2.5rem;
+    align-self: flex-end;
     padding: 0;
   }
   .buttonGroup {

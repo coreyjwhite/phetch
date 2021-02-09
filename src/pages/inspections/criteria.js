@@ -163,77 +163,71 @@ export default function Criteria() {
             </>
           }
         />
-      </StyledPage>
-      <FormModal
-        isOpen={toggleCategory}
-        cancel={resetCategory}
-        hasDelete={categoryFields.id}
-        submit={submitCategory}
-        heading="Inspection Category"
-        width={m.sp16}
-      >
-        <Row
-          align="flex-end"
-          justify="space-between"
-          margin={`${m.sp4} 0 ${m.sp9}`}
+        <FormModal
+          isOpen={toggleCategory}
+          cancel={resetCategory}
+          hasDelete={categoryFields.id}
+          submit={submitCategory}
+          heading="Inspection Category"
+          width={m.sp16}
         >
-          <label>Description</label>
-          <Textbox
-            name="description"
-            width={m.sp14}
-            defaultValue={categoryFields.description}
-            inputRef={registerCategory}
-          />
-        </Row>
-      </FormModal>
-      <FormModal
-        isOpen={toggleCriterion}
-        cancel={resetCriterion}
-        submit={submitCriterion}
-        hasDelete={criterionFields.id}
-        heading="Inspection Criterion"
-        width={m.sp16}
-      >
-        <Row
-          align="flex-end"
-          justify="space-between"
-          margin={`${m.sp4} 0 ${m.sp7}`}
-        >
-          <label>Name</label>
-          <Textbox
-            name="short_name"
-            width={m.sp15}
-            defaultValue={criterionFields.short_name}
-            inputRef={registerCriterion}
-          />
-        </Row>
-        <label>Description</label>
-        <Row margin={`${m.sp4} 0 ${m.sp7}`}>
-          <Textarea
-            name="description"
-            defaultValue={criterionFields.description}
-            inputRef={registerCriterion}
-            placeholder="enter description..."
-          />
-        </Row>
-        <label>Category</label>
-        <Row margin={`${m.sp4} 0 ${m.sp9}`}>
-          <Select
-            name="category_id"
-            defaultValue={criterionFields.category_id}
-            inputRef={registerCriterion}
+          <Row
+            align="flex-end"
+            justify="space-between"
+            margin={`${m.sp4} 0 ${m.sp9}`}
           >
-            {categoriesData &&
-              Object.keys(categoriesData).map(key => {
-                return (
-                  <option key={key} value={categoriesData[key].id}>
-                    {categoriesData[key].description}
-                  </option>
-                );
-              })}
-          </Select>
-        </Row>
-      </FormModal>
+            <label>Description</label>
+            <Textbox
+              name="description"
+              width={m.sp14}
+              defaultValue={categoryFields.description}
+              inputRef={registerCategory}
+            />
+          </Row>
+        </FormModal>
+        <FormModal
+          isOpen={toggleCriterion}
+          cancel={resetCriterion}
+          submit={submitCriterion}
+          hasDelete={criterionFields.id}
+          heading="Inspection Criterion"
+          width={m.sp16}
+        >
+          <Row
+            align="flex-end"
+            justify="space-between"
+            margin={`${m.sp4} 0 ${m.sp7}`}
+          >
+            <label>Name</label>
+            <Textbox
+              name="short_name"
+              width={m.sp15}
+              defaultValue={criterionFields.short_name}
+              inputRef={registerCriterion}
+            />
+          </Row>
+          <label>Description</label>
+          <Row margin={`${m.sp4} 0 ${m.sp7}`}>
+            <Textarea
+              name="description"
+              defaultValue={criterionFields.description}
+              inputRef={registerCriterion}
+              placeholder="enter description..."
+            />
+          </Row>
+          <label>Category</label>
+          <Row margin={`${m.sp4} 0 ${m.sp9}`}>
+            <Select
+              name="category_id"
+              defaultValue={criterionFields.category_id}
+              inputRef={registerCriterion}
+              data={categoriesData}
+              valueField="id"
+              labelField="description"
+            ></Select>
+          </Row>
+        </FormModal>
+      </StyledPage>
     </>
   );
 }

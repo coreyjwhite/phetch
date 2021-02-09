@@ -34,7 +34,7 @@ export default function useModalForm(initialFieldsState, apiUrl, refresh) {
    *
    * @param  {object} newFields description
    */
-  function submit(newFields) {
+  async function submit(newFields) {
     setFields(Object.assign(fields, newFields));
     if (newFields.value == "delete") {
       del(apiUrl, { id: fields.id });
@@ -43,14 +43,14 @@ export default function useModalForm(initialFieldsState, apiUrl, refresh) {
     } else {
       update(apiUrl, fields);
     }
-    reset();
-    refresh();
+    await reset();
+    await refresh();
   }
 
   /**
    * reset - description
    */
-  function reset() {
+  async function reset() {
     setFields(initialFieldsState);
     setModalIsOpen(false);
     refresh();
