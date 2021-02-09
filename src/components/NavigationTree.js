@@ -11,6 +11,13 @@ export const NavigationTree = [
     ]
   ],
   [
+    "Admin",
+    [
+      ["Departments", "/admin/departments"],
+      ["Locations", "/admin/locations"]
+    ]
+  ],
+  [
     "Chemo",
     [
       ["Planner", "/chemo/planner"],

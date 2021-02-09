@@ -14,7 +14,7 @@ const StyledCard = styled(Card)`
     margin: 0 ${m.sp8};
     font-size: ${m.sp10};
     &.success {
-      color: ${c.success2};
+      color: ${c.success1};
     }
     &.danger {
       color: ${c.danger2};

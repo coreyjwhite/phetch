@@ -53,7 +53,6 @@ const StyledDiv = styled.div.attrs({
 export default function Sidenav(props) {
   return (
     <StyledDiv open={props.open}>
-      <Brand />
       <StyledTextbox placeholder="search..." width={m.col9} caret="white" />
       {props.children}
     </StyledDiv>

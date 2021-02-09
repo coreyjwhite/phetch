@@ -16,7 +16,7 @@ import Table from "components/data/Table";
 import Textbox from "components/input/Textbox";
 import XLSButton from "components/input/XLSButton";
 
-const locationsResourceUrl = setApiUrl("inspections/locations/");
+const locationsResourceUrl = setApiUrl("organization/locations/");
 const departmentsResourceUrl = setApiUrl("organization/departments/");
 const initialLocationState = {
   id: null,
@@ -32,7 +32,7 @@ const initialLocationState = {
   last_updated_by: 5
 };
 
-export default function InspectionLocations() {
+export default function Locations() {
   const {
     data: locationsData,
     mutate: refreshLocationsData,
@@ -61,8 +61,29 @@ export default function InspectionLocations() {
         accessor: "department_description"
       },
       {
+        Header: "Meditech",
+        accessor: "emr_id",
+        Cell({ value }) {
+          return <div>{value}</div>;
+        }
+      },
+      {
+        Header: "Omnicell",
+        accessor: "adc_id",
+        Cell({ value }) {
+          return <div>{value}</div>;
+        }
+      },
+      {
         Header: "Inpatient",
         accessor: "is_inpatient",
+        Cell({ value }) {
+          return <Boolean value={value} />;
+        }
+      },
+      {
+        Header: "Offsite",
+        accessor: "is_offsite",
         Cell({ value }) {
           return <Boolean value={value} />;
         }
@@ -80,20 +101,6 @@ export default function InspectionLocations() {
         Cell({ value }) {
           return <Boolean value={value} />;
         }
-      },
-      {
-        Header: "Offsite",
-        accessor: "is_offsite",
-        Cell({ value }) {
-          return <Boolean value={value} />;
-        }
-      },
-      {
-        Header: "Omnicell",
-        accessor: "adc_id",
-        Cell({ value }) {
-          return <Boolean value={value} />;
-        }
       }
     ],
     []
@@ -102,7 +109,7 @@ export default function InspectionLocations() {
   return (
     <>
       <Page
-        pageTitle="Inspection Locations"
+        pageTitle="Locations"
         width={m.col12}
         align="center"
         data={[
@@ -111,9 +118,9 @@ export default function InspectionLocations() {
         ]}
         actions={
           <>
-            <XLSButton table="categoriesTable" />
-            <PrintButton element="categoriesTable" />
-            <AddButton onClick={() => selectCategory(null)} />
+            <XLSButton table="locationsTable" />
+            <PrintButton element="locationsTable" />
+            <AddButton onClick={select} />
           </>
         }
       >
@@ -165,26 +172,30 @@ export default function InspectionLocations() {
             />
           </Row>
           <Row>
-            <Column width="100%" align="flex-end" justify="space-around">
+            <Column align="flex-end" justify="space-around">
               <label>Inpatient</label>
-              <label>Crash Cart</label>
               <label>Offsite</label>
-              <label>Refrigerator</label>
             </Column>
-            <Column align="flex-start">
+            <Column>
               <Checkbox
                 name="is_inpatient"
                 defaultChecked={fields.is_inpatient}
                 inputRef={register}
               />
               <Checkbox
-                name="has_crashcart"
-                defaultChecked={fields.has_crashcart}
-                inputRef={register}
-              />
-              <Checkbox
                 name="is_offsite"
                 defaultChecked={fields.is_offsite}
+                inputRef={register}
+              />
+            </Column>
+            <Column align="flex-end" justify="space-around">
+              <label>Crash Cart</label>
+              <label>Refrigerator</label>
+            </Column>
+            <Column>
+              <Checkbox
+                name="has_crashcart"
+                defaultChecked={fields.has_crashcart}
                 inputRef={register}
               />
               <Checkbox

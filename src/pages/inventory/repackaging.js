@@ -14,12 +14,13 @@ import Pill from "components/Pill";
 import PrintButton from "components/input/PrintButton";
 import Progress from "components/Progress";
 import Row from "components/containers/Row";
+import StatusCard from "components/data/StatusCard";
 import Table from "components/data/Table";
 import useSWR from "swr";
-import apiUrl from "libs/setApiUrl";
+import setApiUrl from "libs/setApiUrl";
 
 const StyledHeader = styled(PageHeader)`
-  height: ${m.sp15};
+  height: ${m.sp13};
   background: #053f6f;
   h1 {
     color: ${c.primary9};
@@ -27,35 +28,60 @@ const StyledHeader = styled(PageHeader)`
 `;
 
 const midazolam = ["MIDA3.75ML", "MIDA5ML", "MIDA7.5ML"];
+const repackagingResourceUrl = setApiUrl("omnicell/repackaging/");
+
+async function getRepackagingStats(data) {
+  let totalOnhand = 0;
+  let totalPar = 0;
+  let reorder = 0;
+  await data.forEach(function(item) {
+    console.log(item["qty_onhand"]);
+    totalOnhand += item["qty_onhand"];
+    totalPar += item["qty_parlvl"];
+    if (item["qty_onhand"] < item["qty_min"]) {
+      reorder++;
+    }
+  });
+  console.log(totalOnhand);
+  return { stockLevel: (totalOnhand / totalPar) * 100, reorder: reorder };
+}
 
 export default function Repackaging() {
-  const props = {
+  const { data: repackagingData, error: repackagingDataError } = useSWR(
+    repackagingResourceUrl
+  );
+
+  const repackagingStats = getRepackagingStats(repackagingData);
+  const reorder = repackagingStats["reorder"];
+  const stockLevel = repackagingStats["stockLevel"].toFixed(0);
+
+  const pageProps = {
     id: "repackaging",
     pageTitle: "Repackaging",
     header: (
       <StyledHeader id="repackaging" className="Header">
-        <h1>Repackaging</h1>
-        <Row justify="flex-start">
-          <Card>
-            <Row align="center" justify="center" height={m.col12}>
-              <h1
-                style={{
-                  fontSize: m.sp11,
-                  margin: `0 ${m.sp8}`,
-                  color: c.primary5,
-                  textShadow: s.elev3
-                }}
-              >
-                3
-              </h1>
-            </Row>
-          </Card>
-          <Card />
+        <Row justify="flex-start" align="center" height={m.col12}>
+          <StatusCard
+            className={reorder == 0 ? "success" : "warning"}
+            width={m.col2}
+            height={m.sp12}
+            margin={0}
+            kpiData={reorder}
+            kpiTitle="Reorder"
+          />
+          <StatusCard
+            className="success"
+            width={m.col2}
+            height={m.sp12}
+            margin={0}
+            kpiData={`${stockLevel}%`}
+            kpiTitle="On Hand / Par"
+          />
         </Row>
       </StyledHeader>
     )
   };
-  const resourceUrl = apiUrl("omnicell/repackaging/");
+
   const columns = useMemo(
     () => [
       {
@@ -203,14 +229,12 @@ export default function Repackaging() {
     []
   );
 
-  const { data, error } = useSWR(resourceUrl);
-
   return (
-    <Page {...props} data={[data, error]}>
+    <Page {...pageProps} data={[repackagingData, repackagingDataError]}>
       <Table
         id="repackagingTable"
         columns={columns}
-        data={data}
+        data={repackagingData}
         heading="Inventory"
         width={m.col12}
         actions=<PrintButton element="repackagingTable" />
