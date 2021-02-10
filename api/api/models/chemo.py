@@ -11,6 +11,17 @@ class ChemoItem(LocalModel):
     __tablename__ = "chemo_item"
 
     item_id = Column(String(16), primary_key=True)
+    description = Column(String(64))
+    is_active = Column(TINYINT, nullable=False, server_default="1")
+    last_updated = Column(
+        DateTime,
+        nullable=False,
+        server_default=sql.text(
+            "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+        ),
+        server_onupdate=FetchedValue(),
+    )
+    last_updated_by = Column(Integer, nullable=False)
 
 
 class ChemoAppointment(LocalModel):

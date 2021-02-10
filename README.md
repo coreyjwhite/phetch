@@ -24,10 +24,8 @@
 
 node.js
 
-[![React badge](https://img.shields.io/static/v1?label=react&message=v17.0.1&color=blue&style=for-the-badge&logo=react)](https://reactjs.org/) JavaScript (ES6) front end/UI
-
-[![Next badge](https://img.shields.io/static/v1?label=next.js&message=v10.0.3&color=black&style=for-the-badge&logo=next.js)](https://nextjs.org/) Static site generator
-
+- [React](https://reactjs.org/) JavaScript (ES6) front end/UI
+- [Next.js](https://nextjs.org/) Static site generator
 - [MSAL.js](https://github.com/AzureAD/microsoft-authentication-library-for-js#readme) - Azure AD authentication
 - [styled-components](https://styled-components.com/) - CSS for React components
 - [react-table](https://react-table.tanstack.com/) - Data tables
@@ -42,5 +40,3 @@ python
 - [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/) - API resource routing
 - [SQLAlchemy](https://www.sqlalchemy.org/) - Object-relational mapper
 - [pandas](https://pandas.pydata.org/) - Data ETL
-
-# phetch

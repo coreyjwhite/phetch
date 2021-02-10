@@ -22,6 +22,7 @@ const StyledDiv = styled.div`
   padding: 0;
   display: flex;
   cursor: pointer;
+  margin: ${m.sp3} 0;
   select {
     appearance: none;
     outline: none;
@@ -52,7 +53,6 @@ export default function Select(props) {
         name={props.name}
         defaultValue={props.defaultValue}
       >
-        <option />
         {props.data.map(function(row) {
           return (
             <option key={row[props.valueField]} value={row[props.valueField]}>

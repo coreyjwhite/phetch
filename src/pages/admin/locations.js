@@ -22,6 +22,7 @@ const initialLocationState = {
   id: null,
   description: null,
   department_id: null,
+  contact: null,
   adc_id: null,
   emr_id: null,
   has_crashcart: false,
@@ -75,6 +76,13 @@ export default function Locations() {
         }
       },
       {
+        Header: "Contact",
+        accessor: "contact",
+        Cell({ value }) {
+          return <div>cjwhite@etch.com</div>;
+        }
+      },
+      {
         Header: "Inpatient",
         accessor: "is_inpatient",
         Cell({ value }) {
@@ -110,8 +118,6 @@ export default function Locations() {
     <>
       <Page
         pageTitle="Locations"
-        width={m.col12}
-        align="center"
         data={[
           locationsData && departmentsData,
           locationsDataError || departmentsDataError
@@ -146,7 +152,7 @@ export default function Locations() {
             <label>Description</label>
             <Textbox
               name="description"
-              width={m.col8}
+              width={m.col9}
               defaultValue={fields.description}
               inputRef={register}
             />
@@ -161,17 +167,26 @@ export default function Locations() {
               name="emr_id"
               defaultValue={fields.emr_id}
               inputRef={register}
-              width={m.col3}
+              width={m.col4}
             />
             <label>Omnicell</label>
             <Textbox
               name="adc_id"
               defaultValue={fields.adc_id}
               inputRef={register}
-              width={m.col3}
+              width={m.col4}
             />
           </Row>
-          <Row>
+          <label>Department</label>
+          <Select
+            name="department_id"
+            defaultValue={fields.department_id}
+            inputRef={register}
+            data={departmentsData}
+            valueField="id"
+            labelField="description"
+          />
+          <Row margin={`${m.sp7} 0`}>
             <Column align="flex-end" justify="space-around">
               <label>Inpatient</label>
               <label>Offsite</label>
@@ -205,15 +220,6 @@ export default function Locations() {
               />
             </Column>
           </Row>
-          <label>Department</label>
-          <Select
-            name="department_id"
-            defaultValue={fields.department_id}
-            inputRef={register}
-            data={departmentsData}
-            valueField="id"
-            labelField="description"
-          />
         </FormModal>
       </Page>
     </>

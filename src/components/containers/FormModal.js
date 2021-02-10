@@ -15,7 +15,7 @@ const StyledModal = Modal.styled`
   justify-content: space-between;
   background-color: white;
   color: ${c.gray2};
-  padding: ${m.sp7};
+  padding: ${m.sp8};
   box-shadow: ${s.elev5};
   @media (min-width: ${m.devMd}) {
     width: ${props => props.width || "fit-content"};
@@ -24,7 +24,7 @@ const StyledModal = Modal.styled`
   }
 `;
 
-const StyledH3 = styled.h3`
+const StyledH2 = styled.h2`
   margin: 0 0 ${m.sp6};
 `;
 
@@ -36,11 +36,11 @@ export default function FormModal(props) {
       onEscapeKeydown={props.cancel}
     >
       <Row width={m.col12} justify="flex-start">
-        <StyledH3>{props.heading}</StyledH3>
+        <StyledH2>{props.heading}</StyledH2>
       </Row>
       <form onSubmit={props.submit}>
         {props.children}
-        <Row justify="flex-end" margin={`${m.sp6} 0 0`}>
+        <Row justify="flex-end" margin={`${m.sp8} 0 0`}>
           {props.hasDelete ? (
             <Button
               className="delete"

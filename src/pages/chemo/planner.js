@@ -56,6 +56,7 @@ export default function ChemoPlanner() {
           />
         </Card>
         <FormModal
+          heading="Chemo Appointment"
           isOpen={toggle}
           cancel={reset}
           hasDelete={true}
