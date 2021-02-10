@@ -512,20 +512,13 @@ export default function StatusBoard() {
 
   //if (!kitData) return <Loading />;
   //if (!pendingTagData) return <Loading />;
+  if (!(censusData && populationsData && stockoutData && watchlistData))
+    return <LoadingPage />;
 
   return (
     <>
-      <Page
-        pageTitle={pageTitle}
-        heading={pageTitle}
-        data={[
-          censusData && populationsData && stockoutData && watchlistData,
-          censusDataError ||
-            populationsDataError ||
-            stockoutDataError ||
-            watchlistDataError
-        ]}
-      >
+      {console.log(populationsData)}
+      <Page pageTitle={pageTitle} heading={pageTitle}>
         <Row>
           <Column width={m.col9}>
             <Row justify="space-evenly">

@@ -30,11 +30,11 @@ const StyledHeader = styled(PageHeader)`
 const midazolam = ["MIDA3.75ML", "MIDA5ML", "MIDA7.5ML"];
 const repackagingResourceUrl = setApiUrl("omnicell/repackaging/");
 
-async function getRepackagingStats(data) {
+function getRepackagingStats(data) {
   let totalOnhand = 0;
   let totalPar = 0;
   let reorder = 0;
-  await data.forEach(function(item) {
+  data.forEach(function(item) {
     console.log(item["qty_onhand"]);
     totalOnhand += item["qty_onhand"];
     totalPar += item["qty_parlvl"];
@@ -51,10 +51,6 @@ export default function Repackaging() {
     repackagingResourceUrl
   );
 
-  const repackagingStats = getRepackagingStats(repackagingData);
-  const reorder = repackagingStats["reorder"];
-  const stockLevel = repackagingStats["stockLevel"].toFixed(0);
-
   const pageProps = {
     id: "repackaging",
     pageTitle: "Repackaging",
@@ -62,11 +58,10 @@ export default function Repackaging() {
       <StyledHeader id="repackaging" className="Header">
         <Row justify="flex-start" align="center" height={m.col12}>
           <StatusCard
-            className={reorder == 0 ? "success" : "warning"}
+            className="success"
             width={m.col2}
             height={m.sp12}
             margin={0}
-            kpiData={reorder}
             kpiTitle="Reorder"
           />
           <StatusCard
@@ -74,7 +69,6 @@ export default function Repackaging() {
             width={m.col2}
             height={m.sp12}
             margin={0}
-            kpiData={`${stockLevel}%`}
             kpiTitle="On Hand / Par"
           />
         </Row>
