@@ -6,6 +6,7 @@
 [![python style: black](https://img.shields.io/badge/python%20style-black-000000.svg?style=for-the-badge&logo=python)](https://black.readthedocs.io/en/stable/)
 [![es6 style](https://img.shields.io/static/v1?label=es6%20style&message=prettier&color=orange&style=for-the-badge&logo=prettier)](https://prettier.io/)
 [![yarn](https://img.shields.io/static/v1?label=yarn&message=v1.22.5&color=9cf&style=for-the-badge&logo=yarn)](https://yarnpkg.com/)
+[![poetry](https://img.shields.io/static/v1?label=poetry&message=v1.1.4&color=blue&style=for-the-badge)](https://python-poetry.org/)
 
 ![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/coreyjwhite/phetch?style=for-the-badge)
 ![Lines of code](https://img.shields.io/tokei/lines/github/coreyjwhite/phetch?style=for-the-badge)
