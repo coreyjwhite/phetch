@@ -59,17 +59,8 @@ class DepartmentResource(Resource):
 class LocationResource(Resource):
     def get(self):
         q = (
-            Location.query(
-                Location.id,
-                Location.description,
-                Location.adc_id,
-                Location.emr_id,
-                Location.has_crashcart,
-                Location.has_refrigerator,
-                Location.is_inpatient,
-                Location.is_offsite,
-                Location.contact_id,
-                Location.department_id,
+            db.session.query(
+                Location,
                 Department.description.label("department_description"),
                 Person.email.label("contact_email"),
             )
@@ -81,6 +72,7 @@ class LocationResource(Resource):
             )
             .join(Person, Person.id == Location.contact_id, isouter=True)
         )
+        print(q.all())
         return serialize(q)
 
     def post(self):
@@ -107,6 +99,7 @@ class LocationResource(Resource):
         db.session.commit()
 
     def put(self):
+        print([column.key for column in Location.__table__.columns])
         req = request.get_json(force=True)
         id = req["id"]
         row = Location.query(Location).filter(Location.id == id).first()
