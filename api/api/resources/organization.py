@@ -59,8 +59,8 @@ class DepartmentResource(Resource):
 class LocationResource(Resource):
     def get(self):
         q = (
-            db.session.query(
-                Location,
+            Location.query(
+                Location.id,
                 Department.description.label("department_description"),
                 Person.email.label("contact_email"),
             )
@@ -72,7 +72,6 @@ class LocationResource(Resource):
             )
             .join(Person, Person.id == Location.contact_id, isouter=True)
         )
-        print(q.all())
         return serialize(q)
 
     def post(self):

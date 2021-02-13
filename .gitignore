@@ -39,4 +39,9 @@ __pycache__/
 flask_session/
 
 # yarn
-.yarn/
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

@@ -1,4 +1,5 @@
-[imports] = [react,
+{imports:
+  react,
    next,
    third_party =
      [swr,

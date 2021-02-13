@@ -5,7 +5,6 @@ All ORM classes, whether mapped to local or remote databases, inherit from
 BaseModel, which in turn inherits from the flask_sqlalchemy declarative_base.
 
 """
-
 from .. import db
 
 
